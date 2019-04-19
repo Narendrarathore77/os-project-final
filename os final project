@@ -1,0 +1,65 @@
+#include<stdio.h>
+struct process
+{
+char name;
+int AT,BT,CT,WT,TT,priority;
+int processed;
+
+}
+p[3];
+int n=3;
+void sortByAT()
+{
+struct process temp;
+int i,j;
+for(i=0;i<3;i++)
+for(j=i+1;j<4;j++)
+{
+if(p[i].AT>p[j].AT)
+{
+temp=p[i];
+p[i]=p[j];
+p[j]=temp;
+}
+}
+}
+
+int main()
+{
+int i,j,time=0,sum_BT=0,max;
+char c;
+		float avgtt=0;
+        float avgwt=0;
+
+ for(i=0,c='A';i<n;i++,c++)
+ {
+ p[i].name=c;
+ printf("\nEnter the Arrival Time, Burst Time, and priority of the process %c:\n ",p[i].name);
+ scanf("%d%d%d",&p[i].AT,&p[i].BT,&p[i].priority);
+ p[i].processed=0;
+ sum_BT=sum_BT+p[i].BT;
+ 
+}
+sortByAT();
+p[9].priority=-9999;
+printf("\nName\tArrival Time\tBurst Time\tPriority\t WT \t TT");
+  for(time=p[0].AT;time<sum_BT;)
+  {
+    max=3;
+    for(i=0;i<n;i++)
+    {
+      if(p[i].AT<=time && p[i].processed!=1 && p[i].priority>p[max].priority)
+        max=i;
+    }
+      time=time+p[max].BT;
+  p[max].CT=time;
+          p[max].WT=p[max].CT-p[max].AT-p[max].BT;
+     p[max].TT=p[max].CT-p[max].AT;
+    p[max].processed=1;
+    avgwt=avgwt+p[max].WT;
+    avgtt=avgtt+p[max].TT;
+printf("\n%c\t\t%d\t\t%d\t\t%d\t%d\t%d",p[max].name,p[max].AT,p[max].BT,p[max].priority,p[max].WT,p[max].TT);
+}
+printf("\nAverage Waiting Time:%f\n",avgwt/n);
+printf("\nAverage Turn Around Time:%f\n",avgtt/n);
+}
